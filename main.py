@@ -83,15 +83,20 @@ def input_from_classificator(classificator: list, attribute_name: str):
     return element
 
 
-season_types = ['summer', 'demi', 'winter']
+seasons = ['summer', 'demi', 'winter', None]
 condition_types = ['new', 'good', 'bed', 'spoiled', 'required repair']
 item_classes = ['closes', 'shoes', 'accessories', 'other']
-item_types = {
-    'closes': ['pant', 'jeans', 'pullover', 'suit', 't-shirt', 'shirt', 'jacket', 'overall', 'hat', 'mittens', 'socks',
-               'underpants', 'pajamas', 'other'],
-    'shoes': ['snickers', 'slippers', 'boots', 'sandals', 'clogs', 'high boots', 'rain boots', 'other'],
-    'accessories': ['glasses', 'bag', 'other'],
-    'other': 'other'}
+item_types = {'closes': ['pant', 'jeans', 'pullover', 'suit', 't-shirt', 'shirt', 'jacket', 'overall', 'hat', 'mittens',
+                         'socks', 'underpants', 'pajamas', 'other'],
+              'shoes': ['snickers', 'slippers', 'boots', 'sandals', 'clogs', 'high boots', 'rain boots', 'other'],
+              'accessories': ['glasses', 'bag', 'headgear', 'other'],
+              'other': 'other'}
+colors = ['red', 'yellow', 'green', 'blue', 'white', 'black', 'multicolor', 'printed', 'brown', 'grey', 'pink',
+          'orange', 'turquoise']
+sizes = {'closes': ['98', '104', '110', '116', '98-104', '104-110', '110-116', '3T', '4T', '5T'],
+         'shoes': ['25', '26', '27', '28', 'C9', 'C10', 'C11']}
+brands = {'closes': ['lupilu', 'kik', 'H&M', 'C&A', 'carters', 'childrens place', 'input other'],
+          'shoes': ['elefanten', 'kik', 'crocs', 'ecco', 'input other']}
 
 
 class Storage:  # места хранения
@@ -105,20 +110,22 @@ class Item:
 
     def __init__(self, name, item_class=None, item_type=None, size=None, season=None, color=None,
                  brand=None, storage=None, price=0, description=""):
-        # ,purchase_place,condition: condition_type):
+        # ,purchase_place,condition: condition_types):
 
         self.__name = name
         self.item_class = item_class or input_from_classificator(item_classes, "item_class")
         self.item_type = item_type or input_from_classificator(item_types.get(self.item_class), "item_type")
-        self.size = size or input('size = ')
-        self.season = season or input_from_classificator(season_types, "season")
-        self.color = color or input('color = ')
-        self.brand = brand or input('brand = ')
+        self.size = size or self.input_size()
+        self.season = season or input_from_classificator(seasons, "season")
+        self.color = color or input_from_classificator(colors, "color")
+        self.brand = brand or self.input_brand()
         self.storage = storage or None
         self.price = price or self.input_price()
         self.description = description or input('description = ')
         # self.purchase_place = purchase_place
         # self.condition = condition
+
+        self.price = float(self.price)  # if input from file
 
     def __eq__(self, other):
         return self.__name == other.__name
@@ -134,8 +141,43 @@ class Item:
     def name(self):
         return self.__name
 
-    def change_element(self):
-        pass
+    def change_article(self):
+        attributes = list(self.__dict__.keys())
+        attribute = input_from_classificator(attributes, 'attribute')
+        print(attribute)
+        if attribute == "Item__name":
+            pass
+        elif attribute == 'item_class':
+            pass
+        elif attribute == 'item_tipe':
+            pass
+        elif attribute == 'size':
+            self.size = self.input_size()
+        elif attribute == 'season':
+            self.season = input_from_classificator(seasons,'season')
+        elif attribute == 'color':
+            self.color = input_from_classificator(colors, "color")
+        elif attribute == 'brand':
+            self.brand = self.input_brand()
+        elif attribute == 'price':
+            self.price = self.input_price()
+        else:
+            pass
+            #self[attribute] = input(f'{attribute} = ')
+
+    def input_size(self):
+        if self.item_class in ['closes', 'shoes']:
+            return input_from_classificator(sizes.get(self.item_class), "size")
+        else:
+            return input('size = ')
+
+    def input_brand(self):
+        if self.item_class in ['closes', 'shoes']:
+            brand = input_from_classificator(brands.get(self.item_class), 'brand')
+            if brand == 'input other':
+                return input('brand = ')
+        else:
+            return input('brand = ')
 
     def input_price(self):
         while True:
@@ -145,7 +187,6 @@ class Item:
                 return price
             except:
                 print("Incorrect price! Value must be float.")
-
 
 class Wardrobe:
     def __init__(self, list_items: [Item]):
@@ -181,13 +222,11 @@ class Wardrobe:
 
     def change_item(self):
         element = input_from_classificator(self.__list_items, 'article')
-        attributes = list(element.__dict__.keys())
-        attribute = input_from_classificator(attributes, 'atribute')
-        print(attribute)
+        element.change_article()
 
     def delete_item(self):
         element = input_from_classificator(self.__list_items, 'article')
-        answer = input("Do yuo really wont to delete element? Yes - 1, No - 0: ")
+        answer = input("Do you really wont to delete element? Yes - 1, No - 0: ")
         if answer == "1":
             self.__list_items.remove(element)
         print(self)
@@ -202,9 +241,9 @@ def read_file(file_name):
     list_items = []
     for line in file_input:
         elements = line.strip().split(';')
-        new_Item = Item(elements[0], elements[1], elements[2], elements[3], elements[4], elements[5], elements[6],
-                        elements[7],elements[8], elements[9])
-        list_items.append(new_Item)
+        new_item = Item(elements[0], elements[1], elements[2], elements[3], elements[4], elements[5], elements[6],
+                        elements[7], elements[8], elements[9])
+        list_items.append(new_item)
 
     file_input.close()
 
