@@ -68,7 +68,7 @@ def input_from_classificator(classificator: list, attribute_name: str):
 
     correct_input = False
     while not correct_input:
-        action = input(f'{text} :')
+        action = input(f'{text} : ')
         try:
             action = int(action)
             if action < len(classificator):
@@ -115,12 +115,12 @@ class Item:
         self.__name = name
         self.item_class = item_class or input_from_classificator(item_classes, "item_class")
         self.item_type = item_type or input_from_classificator(item_types.get(self.item_class), "item_type")
-        self.size = size or self.input_size()
+        self.size = size or self.input_size("size")
         self.season = season or input_from_classificator(seasons, "season")
         self.color = color or input_from_classificator(colors, "color")
-        self.brand = brand or self.input_brand()
+        self.brand = brand or self.input_brand("brand")
         self.storage = storage or None
-        self.price = price or self.input_price()
+        self.price = price or self.input_price("price")
         self.description = description or input('description = ')
         # self.purchase_place = purchase_place
         # self.condition = condition
@@ -141,52 +141,72 @@ class Item:
     def name(self):
         return self.__name
 
+    @classmethod
+    def input_name(cls):
+        while True:
+            name = input('Name = ')
+            if name == '':
+                print('Name cannot be empty')
+            else:
+                return name
+
     def change_article(self):
+        print(f'article = {self.fullstr()}')
         attributes = list(self.__dict__.keys())
         attribute = input_from_classificator(attributes, 'attribute')
-        print(attribute)
-        if attribute == "Item__name":
-            pass
+        print(f'old {attribute} = {self.__getattribute__(attribute)}')
+        if attribute == "_Item__name":
+            name = Item.input_name()
+            article = my_wardrobe.find_item(name,True)
+            if article is None:
+                self.__name = name
+            # else:
+            #     print(f'Article with name {name} already exist.')
         elif attribute == 'item_class':
-            pass
+            self.item_class = input_from_classificator(item_classes, 'new item_class')
+            self.item_type = input_from_classificator(item_types.get(self.item_class), 'new item type')
         elif attribute == 'item_tipe':
-            pass
+            self.item_type = input_from_classificator(item_types.get(self.item_class), 'new item type')
         elif attribute == 'size':
-            self.size = self.input_size()
+            self.size = self.input_size('new size')
         elif attribute == 'season':
-            self.season = input_from_classificator(seasons,'season')
+            self.season = input_from_classificator(seasons, 'new season')
         elif attribute == 'color':
-            self.color = input_from_classificator(colors, "color")
+            self.color = input_from_classificator(colors, "new color")
         elif attribute == 'brand':
-            self.brand = self.input_brand()
+            self.brand = self.input_brand("new brand")
         elif attribute == 'price':
-            self.price = self.input_price()
+            self.price = self.input_price("new price")
         else:
-            pass
-            #self[attribute] = input(f'{attribute} = ')
+            self.__setattr__(attribute, input(f'new {attribute} = '))
 
-    def input_size(self):
+        action = input("Change other attribute? Yes - 1, No - 0: ")
+        if action == '1':
+            self.change_article()
+
+    def input_size(self, attribute_name: str):
         if self.item_class in ['closes', 'shoes']:
-            return input_from_classificator(sizes.get(self.item_class), "size")
+            return input_from_classificator(sizes.get(self.item_class), attribute_name)
         else:
-            return input('size = ')
+            return input(f'{attribute_name} = ')
 
-    def input_brand(self):
+    def input_brand(self, attribute_name: str):
         if self.item_class in ['closes', 'shoes']:
-            brand = input_from_classificator(brands.get(self.item_class), 'brand')
+            brand = input_from_classificator(brands.get(self.item_class), attribute_name)
             if brand == 'input other':
-                return input('brand = ')
+                return input(f'{attribute_name} = ')
         else:
-            return input('brand = ')
+            return input(f'{attribute_name} = ')
 
-    def input_price(self):
+    def input_price(self, attribute_name: str):
         while True:
-            price = input("price = ")
+            price = input(f'{attribute_name} = ')
             try:
                 price = float(price)
                 return price
             except:
                 print("Incorrect price! Value must be float.")
+
 
 class Wardrobe:
     def __init__(self, list_items: [Item]):
@@ -204,25 +224,43 @@ class Wardrobe:
         return self.__list_items
 
     def add_new_item(self):
-        name = input('Name = ')
-        new_article = self.find_item(name)
+        name = Item.input_name()
+        new_article = self.find_item(name,True)
         if new_article is None:
             new_article = Item(name)
             self.__list_items.append(new_article)
-        else:
-            print(f'Article with name {name} already exist.')
-            work_with_articles()
         print(self)
 
-    def find_item(self, name):
+    def find_item(self, name, new_item=False):
         for article in self.__list_items:
             if article.name() == name:
+                if new_item:
+                    print(f'Article with name "{name}" already exist.')
                 return article
+        if not new_item:
+            print(f'Article with name "{name}" not found')
         return None
 
     def change_item(self):
-        element = input_from_classificator(self.__list_items, 'article')
-        element.change_article()
+        print("Choose action!")
+        action = input('1 - Find article by name, 2 - Choose article from list, 9 - Main menu: ')
+        if action == "1":
+            name = Item.input_name()
+            element = self.find_item(name)
+            if element is None:
+                self.change_item()
+            else:
+                element.change_article()
+        elif action == '2':
+            element = input_from_classificator(self.__list_items, 'article')
+            element.change_article()
+        elif action == '9':
+            main_menu()
+        else:
+            print("Incorrect input")
+            self.change_item()
+        print(self)
+
 
     def delete_item(self):
         element = input_from_classificator(self.__list_items, 'article')
@@ -230,7 +268,6 @@ class Wardrobe:
         if answer == "1":
             self.__list_items.remove(element)
         print(self)
-
 
 def read_file(file_name):
     file_input = open(file_name, "r")
