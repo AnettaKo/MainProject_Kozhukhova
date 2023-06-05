@@ -1,4 +1,4 @@
-from my_functions.interface import main_menu
+# from my_functions.interface import main_menu
 from my_functions.classificators import *
 
 
@@ -83,7 +83,7 @@ class Item:
         else:
             self.__setattr__(attribute, input(f'new {attribute} = '))
 
-        action = input("Change other attribute? Yes - 1, No - 0: ")
+        action = input("Change other attribute? Yes - 1, No - any other key: ")
         if action == '1':
             self.change_article(my_wardrobe)
 
@@ -145,29 +145,28 @@ class Wardrobe:
             print(f'Article with name "{name}" not found')
         return None
 
-    def change_item(self):
+    def choose_item(self):
         print("Choose action!")
-        action = input('1 - Find article by name, 2 - Choose article from list, 9 - Main menu: ')
+        action = input('1 - Find article by name, 2 - Choose article from list: ')
         if action == "1":
             name = Item.input_name()
-            element = self.find_item(name)
-            if element is None:
-                self.change_item()
-            else:
-                element.change_article(self)
+            return self.find_item(name)
         elif action == '2':
-            element = input_from_classificator(self.__list_items, 'article')
-            element.change_article(self)
-        elif action == '9':
-            main_menu(self)
+            return input_from_classificator(self.__list_items, 'article')
         else:
             print("Incorrect input")
-            self.change_item()
-        print(self)
+            return None
+
+    def change_item(self):
+        element = self.choose_item()
+        if element is not None:
+            element.change_article(self)
 
     def delete_item(self):
-        element = input_from_classificator(self.__list_items, 'article')
-        answer = input("Do you really wont to delete element? Yes - 1, No - 0: ")
-        if answer == "1":
-            self.__list_items.remove(element)
-        print(self)
+        element = self.choose_item()
+        if element is not None:
+            print(element.fullstr())
+            answer = input("Do you really wont to delete element? Yes - 1, No - any other key: ")
+            if answer == "1":
+                self.__list_items.remove(element)
+            print(self)
