@@ -1,3 +1,5 @@
+from my_functions.files import write_file
+
 
 def choose_action(menu):
     print("Choose action!")
@@ -22,7 +24,7 @@ def main_menu(my_wardrobe):
         elif action == '3':
             choose_action('reports')
         elif action == '0':
-            exit_system()
+            exit_system(my_wardrobe)
         else:
             print("Incorrect answer")
 
@@ -39,11 +41,15 @@ def work_with_articles(my_wardrobe):
         elif action == '9':
             main_menu(my_wardrobe)
         elif action == '0':
-            exit_system()
+            exit_system(my_wardrobe)
         else:
             print("Incorrect answer")
 
 
-def exit_system():
+def exit_system(my_wardrobe):
+    answer = input("Save changes made in session? Yes - 1, No - any other key: ")
+    if answer == "1":
+        write_file("wardrobe.csv", my_wardrobe)
+
     print("Good by!")
     raise SystemExit

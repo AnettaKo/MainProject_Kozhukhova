@@ -1,4 +1,3 @@
-# from my_functions.interface import main_menu
 from my_functions.classificators import *
 
 
@@ -12,7 +11,7 @@ class Storage:  # места хранения
 class Item:
 
     def __init__(self, name, item_class=None, item_type=None, size=None, season=None, color=None,
-                 brand=None, storage=None, price=0, description=""):
+                 brand=None, storage=None, price=0, description=None):
         # ,purchase_place,condition: condition_types):
 
         self.__name = name
@@ -29,6 +28,8 @@ class Item:
         # self.condition = condition
 
         self.price = float(self.price)  # if input from file
+        if self.description == '':
+            self.description = None
 
     def __eq__(self, other):
         return self.__name == other.__name
@@ -37,9 +38,9 @@ class Item:
         return str(self.__name)
 
     def fullstr(self):
-        return str(self.__name) + ", " + str(self.item_class) + ", " + str(self.item_type) + ", " + str(self.size) \
-            + ", " + str(self.season) + ", " + str(self.color) + ", " + str(self.brand) + ", " + str(self.storage) \
-            + ", " + str(self.price) + ", " + str(self.description)
+        return str(self.__name) + "; " + str(self.item_class) + "; " + str(self.item_type) + "; " + str(self.size) \
+            + "; " + str(self.season) + "; " + str(self.color) + "; " + str(self.brand) + "; " + str(self.storage) \
+            + "; " + str(self.price) + "; " + str(self.description)
 
     def name(self):
         return self.__name
@@ -124,7 +125,7 @@ class Wardrobe:
             wardrobe_string += "\n" + str(index) + ' ' + element.fullstr()
         return wardrobe_string
 
-    def list_item(self):
+    def list_items(self):
         return self.__list_items
 
     def add_new_item(self):
