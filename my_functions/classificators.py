@@ -4,12 +4,14 @@ def input_from_classificator(classificator: list, attribute_name: str):
     text = ""
     index = 0
     for element in classificator:
-        text += str(index) + " - " + str(element) + ", "
+        text += str(index) + " - " + str(element)
         index += 1
+        if index < len(classificator):
+            text += ", "
 
     correct_input = False
     while not correct_input:
-        action = input(f'{text} : ')
+        action = input(f'{text}: ')
         try:
             action = int(action)
             if action < len(classificator):
@@ -31,7 +33,7 @@ item_types = {'closes': ['pant', 'jeans', 'pullover', 'suit', 't-shirt', 'shirt'
                          'socks', 'underpants', 'pajamas', 'other'],
               'shoes': ['snickers', 'slippers', 'boots', 'sandals', 'clogs', 'high boots', 'rain boots', 'other'],
               'accessories': ['glasses', 'bag', 'headgear', 'other'],
-              'other': 'other'}
+              'other': ['other']}
 colors = ['red', 'yellow', 'green', 'blue', 'white', 'black', 'multicolor', 'printed', 'brown', 'grey', 'pink',
           'orange', 'turquoise']
 sizes = {'closes': ['98', '104', '110', '116', '98-104', '104-110', '110-116', '3T', '4T', '5T'],

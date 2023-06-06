@@ -23,13 +23,19 @@ class Item:
         self.brand = brand or self.input_brand("brand")
         self.storage = storage or None
         self.price = price or self.input_price("price")
-        self.description = description or input('description = ')
+        self.description = description or input('description = ').strip()
         # self.purchase_place = purchase_place
         # self.condition = condition
 
+        # if self.description == '':
+        #     self.description = None
+        for attribute in self.__dict__.keys():
+            attribute_value = self.__getattribute__(attribute)
+            if attribute_value == "None" or attribute_value == "":
+                self.__setattr__(attribute, None)
+                if attribute == "price":
+                    self.price = 0
         self.price = float(self.price)  # if input from file
-        if self.description == '':
-            self.description = None
 
     def __eq__(self, other):
         return self.__name == other.__name
@@ -48,7 +54,7 @@ class Item:
     @classmethod
     def input_name(cls):
         while True:
-            name = input('Name = ')
+            name = input('Name = ').strip()
             if name == '':
                 print('Name cannot be empty')
             else:
@@ -64,48 +70,58 @@ class Item:
             article = my_wardrobe.find_item(name, True)
             if article is None:
                 self.__name = name
-            # else:
-            #     print(f'Article with name {name} already exist.')
-        elif attribute == 'item_class':
-            self.item_class = input_from_classificator(item_classes, 'new item_class')
+        elif attribute == "item_class":
+            item_class = input_from_classificator(item_classes, 'new item_class')
+            if item_class != self.item_class:
+                self.item_class = item_class
+                self.item_type = input_from_classificator(item_types.get(item_class), 'new item type')
+                self.size = self.input_size('new size')
+                self.brand = self.input_brand('new brand')
+        elif attribute == "item_type":
             self.item_type = input_from_classificator(item_types.get(self.item_class), 'new item type')
-        elif attribute == 'item_tipe':
-            self.item_type = input_from_classificator(item_types.get(self.item_class), 'new item type')
-        elif attribute == 'size':
+        elif attribute == "size":
             self.size = self.input_size('new size')
-        elif attribute == 'season':
+        elif attribute == "season":
             self.season = input_from_classificator(seasons, 'new season')
-        elif attribute == 'color':
+        elif attribute == "color":
             self.color = input_from_classificator(colors, "new color")
-        elif attribute == 'brand':
+        elif attribute == "brand":
             self.brand = self.input_brand("new brand")
-        elif attribute == 'price':
+        elif attribute == "price":
             self.price = self.input_price("new price")
         else:
-            self.__setattr__(attribute, input(f'new {attribute} = '))
+            new_value = input(f'new {attribute} = ').strip()
+            if new_value == "" or new_value == "None":
+                new_value = None
+            self.__setattr__(attribute, new_value)
 
         action = input("Change other attribute? Yes - 1, No - any other key: ")
         if action == '1':
             self.change_article(my_wardrobe)
 
     def input_size(self, attribute_name: str):
-        if self.item_class in ['closes', 'shoes']:
+        if self.item_class in ["closes", "shoes"]:
             return input_from_classificator(sizes.get(self.item_class), attribute_name)
         else:
-            return input(f'{attribute_name} = ')
+            size = input(f'{attribute_name} = ').strip()
+            if size == "":
+                size = None
+            return size
 
     def input_brand(self, attribute_name: str):
-        if self.item_class in ['closes', 'shoes']:
+        if self.item_class in ["closes", "shoes"]:
             brand = input_from_classificator(brands.get(self.item_class), attribute_name)
-            if brand == 'input other':
-                return input(f'{attribute_name} = ')
-        else:
-            return input(f'{attribute_name} = ')
+            if not brand == "input other":
+                return brand
+        brand = input(f'{attribute_name} = ').strip()
+        if brand == "":
+            brand = None
+        return brand
 
     @classmethod
     def input_price(cls, attribute_name: str):
         while True:
-            price = input(f'{attribute_name} = ')
+            price = input(f'{attribute_name} = ').strip()
             try:
                 price = float(price)
                 return price
