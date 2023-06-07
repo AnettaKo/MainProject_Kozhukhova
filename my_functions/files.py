@@ -1,32 +1,57 @@
+import csv
+from dataclasses import dataclass
+
 from my_functions.classes import *
 
+@dataclass
+class Item1:
+    name: str
+    price: float = 0.0
+    description: str = ''
 
 def read_file(file_name):
-    file_input = open(file_name, "r")
+    # file_input = open(file_name, "r")
+    #
+    # # skip the header
+    # file_input.readline()
+    #
+    # list_items = []
+    # for line in file_input:
+    #     elements = line.strip().split(';')
+    #     new_item = Item(elements[0], elements[1], elements[2], elements[3], elements[4], elements[5], elements[6],
+    #                     elements[7], elements[8], elements[9])
+    #     list_items.append(new_item)
+    #
+    # file_input.close()
+    #
+    # my_wardrobe = Wardrobe(list_items)
+    # print(my_wardrobe)
+    # return my_wardrobe
 
-    # skip the header
-    file_input.readline()
+    with open(file_name, 'r') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=';')
+        list_items = [Item(**row) for row in reader]
 
-    list_items = []
-    for line in file_input:
-        elements = line.strip().split(';')
-        new_item = Item(elements[0].strip(), elements[1].strip(), elements[2].strip(), elements[3].strip(),
-                        elements[4].strip(), elements[5].strip(), elements[6].strip(), elements[7].strip(),
-                        elements[8].strip(), elements[9].strip())
-        list_items.append(new_item)
-
-    file_input.close()
-
-    my_wardrobe = Wardrobe(list_items)
-    print(my_wardrobe)
-    return my_wardrobe
-
+        my_wardrobe = Wardrobe(list_items)
+        print(my_wardrobe)
+        return my_wardrobe
 
 def write_file(file_name, my_wardrobe):
     file_result = open(file_name, "w")
-    file_result.write("name; item_class; item_type; size; season; color; brand; storage; price; description\n")
+    file_result.write("name;item_class;item_type;size;season;color;brand;storage;price;description\n")
     for element in my_wardrobe.list_items():
-        file_result.write(element.fullstr() + "\n")
+        file_result.write(element.fullstr(";") + "\n")
 
     file_result.close()
     print(f'file {file_name} is updated')
+
+    # this code doesn't work because attribute name in object Item is privet
+    # and Item.__dict__.keys() return name "_Item__name" when required "name"
+
+    # with open('sample.csv', 'w') as csvfile:
+    #     list_items = my_wardrobe.list_items()
+    #     writer = csv.DictWriter(csvfile, fieldnames=list_items[0].__dict__.keys(), delimiter=';', lineterminator = '\n')
+    #     writer.writeheader()
+    #     writer.writerows([item.__dict__ for item in list_items])
+
+

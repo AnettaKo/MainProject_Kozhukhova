@@ -11,8 +11,7 @@ class Storage:  # места хранения
 class Item:
 
     def __init__(self, name, item_class=None, item_type=None, size=None, season=None, color=None,
-                 brand=None, storage=None, price=0, description=None):
-        # ,purchase_place,condition: condition_types):
+                 brand=None, storage=None, price: float = 0, description=None):
 
         self.__name = name
         self.item_class = item_class or input_from_classificator(item_classes, "item_class")
@@ -24,17 +23,16 @@ class Item:
         self.storage = storage or None
         self.price = price or self.input_price("price")
         self.description = description or input('description = ').strip()
-        # self.purchase_place = purchase_place
-        # self.condition = condition
 
-        # if self.description == '':
-        #     self.description = None
-        for attribute in self.__dict__.keys():
-            attribute_value = self.__getattribute__(attribute)
-            if attribute_value == "None" or attribute_value == "":
-                self.__setattr__(attribute, None)
-                if attribute == "price":
-                    self.price = 0
+        if self.description == '':
+            self.description = None
+        # for attribute in self.__dict__.keys():
+        #     attribute_value = self.__getattribute__(attribute)
+        #     if attribute_value == "None" or attribute_value == "":
+        #         self.__setattr__(attribute, None)
+        #         if attribute == "price":
+        #             self.price = 0
+
         self.price = float(self.price)  # if input from file
 
     def __eq__(self, other):
@@ -43,10 +41,12 @@ class Item:
     def __str__(self):
         return str(self.__name)
 
-    def fullstr(self):
-        return str(self.__name) + "; " + str(self.item_class) + "; " + str(self.item_type) + "; " + str(self.size) \
-            + "; " + str(self.season) + "; " + str(self.color) + "; " + str(self.brand) + "; " + str(self.storage) \
-            + "; " + str(self.price) + "; " + str(self.description)
+    def fullstr(self, delimiter="; "):
+        return str(self.__name) + delimiter + str(self.item_class) + delimiter + str(self.item_type) + delimiter + str(
+            self.size) \
+            + delimiter + str(self.season) + delimiter + str(self.color) + delimiter + str(
+                self.brand) + delimiter + str(self.storage) \
+            + delimiter + str(self.price) + delimiter + str(self.description)
 
     def name(self):
         return self.__name
@@ -59,6 +59,20 @@ class Item:
                 print('Name cannot be empty')
             else:
                 return name
+
+    # def input_new_item(self, name):
+    #     item_class = input_from_classificator(item_classes, 'item_class')
+    #     item_type = input_from_classificator(item_types.get(item_class), 'item type')
+    #     size = self.input_size('size')
+    #     season = input_from_classificator(seasons, 'season')
+    #     color = input_from_classificator(colors, "color")
+    #     brand = self.input_brand("brand")
+    #     storage = input('storage = ').strip()
+    #     price = self.input_price("price")
+    #     description = input('description = ').strip()
+    #
+    #     new_Item = Item(name, item_class, item_type, size, season, color, brand, storage, price, description)
+    #     return new_Item
 
     def change_article(self, my_wardrobe):
         print(f'article = {self.fullstr()}')
