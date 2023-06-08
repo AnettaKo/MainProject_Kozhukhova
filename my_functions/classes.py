@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from my_functions.classificators import *
 
 
@@ -10,10 +12,10 @@ class Storage:  # места хранения
 
 class Item:
 
-    def __init__(self, name, item_class=None, item_type=None, size=None, season=None, color=None,
+    def __init__(self, _Item__name, item_class=None, item_type=None, size=None, season=None, color=None,
                  brand=None, storage=None, price: float = 0, description=None):
 
-        self.__name = name
+        self.__name = _Item__name
         self.item_class = item_class or input_from_classificator(item_classes, "item_class")
         self.item_type = item_type or input_from_classificator(item_types.get(self.item_class), "item_type")
         self.size = size or self.input_size("size")
@@ -52,6 +54,13 @@ class Item:
         return self.__name
 
     @classmethod
+    def header_attributes(cls):
+        list_header = ['name', 'item_class', 'item_type', 'size', 'season', 'color', 'brand', 'storage', 'price',
+                       'description']
+        # print(list_header)
+        return list_header
+
+    @classmethod
     def input_name(cls):
         while True:
             name = input('Name = ').strip()
@@ -77,6 +86,7 @@ class Item:
     def change_article(self, my_wardrobe):
         print(f'article = {self.fullstr()}')
         attributes = list(self.__dict__.keys())
+        # attributes = Item.header_attributes()
         attribute = input_from_classificator(attributes, 'attribute')
         print(f'old {attribute} = {self.__getattribute__(attribute)}')
         if attribute == "_Item__name":
@@ -201,3 +211,8 @@ class Wardrobe:
             if answer == "1":
                 self.__list_items.remove(element)
             print(self)
+
+
+
+
+# Item.header_attributes()

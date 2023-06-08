@@ -27,7 +27,6 @@ def input_from_classificator(classificator: list, attribute_name: str):
 
 
 seasons = ['summer', 'demi', 'winter', None]
-# condition_types = ['new', 'good', 'bed', 'spoiled', 'required repair']
 item_classes = ['closes', 'shoes', 'accessories', 'other']
 item_types = {'closes': ['pant', 'jeans', 'pullover', 'suit', 't-shirt', 'shirt', 'jacket', 'overall', 'hat', 'mittens',
                          'socks', 'underpants', 'pajamas', 'other'],

@@ -1,4 +1,4 @@
-name;item_class;item_type;size;season;color;brand;storage;price;description
+_Item__name;item_class;item_type;size;season;color;brand;storage;price;description
 snikers elefanten;shoes;snickers;27;summer;grey and green;elefanten;schoe rack;45.0;None
 green rainboots;shoes;rainboots;28;demi;green;None;cellar;25.0;with insulation
 sweater with deer;closes;pullover;104;demi;blue;lupilu;closet;0.0;None

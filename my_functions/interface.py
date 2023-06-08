@@ -1,4 +1,5 @@
 from my_functions.files import write_file
+from my_functions.reports import *
 
 
 def choose_action(menu):
@@ -10,7 +11,7 @@ def choose_action(menu):
     elif menu == 'storages':
         action = input('1 - Add new storage, 2 - Move storage, 3 - Delete storage 9 - Main menu, 0 - Exit: ')
     elif menu == 'reports':
-        action = input('1 - Article report, 2 - Storage report, 9 - Maim menu,0 - Exit: ')
+        action = input('1 - Full table report, 9 - Maim menu,0 - Exit: ')
     return action
 
 
@@ -22,7 +23,7 @@ def main_menu(my_wardrobe):
         elif action == '2':
             choose_action('storages')
         elif action == '3':
-            choose_action('reports')
+            work_with_reports(my_wardrobe)
         elif action == '0':
             exit_system(my_wardrobe)
         else:
@@ -38,6 +39,18 @@ def work_with_articles(my_wardrobe):
             my_wardrobe.change_item()
         elif action == '3':
             my_wardrobe.delete_item()
+        elif action == '9':
+            main_menu(my_wardrobe)
+        elif action == '0':
+            exit_system(my_wardrobe)
+        else:
+            print("Incorrect answer")
+
+def work_with_reports(my_wardrobe):
+    while True:
+        action = choose_action('reports')
+        if action == '1':
+            full_table(my_wardrobe)
         elif action == '9':
             main_menu(my_wardrobe)
         elif action == '0':
