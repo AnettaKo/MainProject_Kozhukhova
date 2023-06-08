@@ -11,7 +11,7 @@ def choose_action(menu):
     elif menu == 'storages':
         action = input('1 - Add new storage, 2 - Move storage, 3 - Delete storage 9 - Main menu, 0 - Exit: ')
     elif menu == 'reports':
-        action = input('1 - Full table report, 9 - Maim menu,0 - Exit: ')
+        action = input('1 - Full table report, 2 - Filtered table report,  9 - Maim menu, 0 - Exit: ')
     return action
 
 
@@ -51,6 +51,8 @@ def work_with_reports(my_wardrobe):
         action = choose_action('reports')
         if action == '1':
             full_table(my_wardrobe)
+        elif action == '2':
+            filtered_table(my_wardrobe)
         elif action == '9':
             main_menu(my_wardrobe)
         elif action == '0':
