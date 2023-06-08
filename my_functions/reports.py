@@ -1,8 +1,5 @@
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
-import plotly.express as px
-# from simple_term_menu import TerminalMenu
-
 
 def full_table(my_wardrobe):
     list_items = my_wardrobe.list_items()
@@ -24,5 +21,7 @@ def full_table(my_wardrobe):
 
 def bar_prices(my_wardrobe):
     list_items = my_wardrobe.list_items()
+
+
 
 

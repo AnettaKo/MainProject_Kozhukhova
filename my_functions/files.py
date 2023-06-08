@@ -57,7 +57,7 @@ def write_file(file_name, my_wardrobe):
     # this code doesn't work because attribute name in object Item is privet
     # and Item.__dict__.keys() return name "_Item__name" when required "name"
 
-    with open('sample.csv', 'w') as csvfile:
+    with open(file_name, 'w') as csvfile:
         list_items = my_wardrobe.list_items()
         writer = csv.DictWriter(csvfile, fieldnames=list_items[0].__dict__.keys(), delimiter=';', lineterminator='\n')
         writer.writeheader()
