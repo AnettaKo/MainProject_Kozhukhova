@@ -112,7 +112,7 @@ class Item:
             try:
                 price = float(price)
                 return price
-            except:
+            except ValueError:
                 print("Incorrect price! Value must be float.")
 
 

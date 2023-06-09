@@ -50,7 +50,8 @@ def table_report(my_wardrobe, select=False):
 
         for attribute, selection in selections.items():
 
-            list_items_selected = filter(lambda item: item.__getattribute__(attribute) in selection, list_items_selected)
+            list_items_selected = filter(lambda item: item.__getattribute__(attribute) in selection,
+                                         list_items_selected)
             list_items_selected = (list(list_items_selected))
 
         print([str(element) for element in list_items_selected])
@@ -68,4 +69,3 @@ def table_report(my_wardrobe, select=False):
     fig = ff.create_table(cells, index=True)
 
     fig.show()
-

@@ -42,6 +42,7 @@ def work_with_articles(my_wardrobe):
         else:
             print("Incorrect answer")
 
+
 def work_with_reports(my_wardrobe):
     while True:
         action = choose_action('reports')

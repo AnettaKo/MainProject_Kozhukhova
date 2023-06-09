@@ -20,7 +20,7 @@ def input_from_classificator(classificator: list, attribute_name: str):
                 print(f'{attribute_name} = "{req_element}"')
             else:
                 print("Incorrect answer")
-        except:
+        except ValueError:
             print("Incorrect answer")
 
     return req_element
