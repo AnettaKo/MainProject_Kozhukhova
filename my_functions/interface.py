@@ -5,11 +5,9 @@ from my_functions.reports import *
 def choose_action(menu):
     print("Choose action!")
     if menu == 'main menu':
-        action = input("1 - Work with articles, 2 - Work with storages, 3 - Report, 0 - Exit: ")
+        action = input("1 - Work with articles, 2 - Reports, 0 - Exit: ")
     elif menu == 'articles':
         action = input('1 - Add new article, 2 - Change article, 3 - Delete article, 9 - Main menu, 0 - Exit: ')
-    elif menu == 'storages':
-        action = input('1 - Add new storage, 2 - Move storage, 3 - Delete storage 9 - Main menu, 0 - Exit: ')
     elif menu == 'reports':
         action = input('1 - Full table report, 2 - Filtered table report,  9 - Maim menu, 0 - Exit: ')
     return action
@@ -21,13 +19,11 @@ def main_menu(my_wardrobe):
         if action == '1':
             work_with_articles(my_wardrobe)
         elif action == '2':
-            choose_action('storages')
-        elif action == '3':
             work_with_reports(my_wardrobe)
         elif action == '0':
             exit_system(my_wardrobe)
         else:
-            print("Incorrect answer")
+            print('Incorrect answer. Fill in "1", "2" or "0"')
 
 
 def work_with_articles(my_wardrobe):
@@ -50,9 +46,9 @@ def work_with_reports(my_wardrobe):
     while True:
         action = choose_action('reports')
         if action == '1':
-            full_table(my_wardrobe)
+            table_report(my_wardrobe)
         elif action == '2':
-            filtered_table(my_wardrobe)
+            table_report(my_wardrobe, True)
         elif action == '9':
             main_menu(my_wardrobe)
         elif action == '0':

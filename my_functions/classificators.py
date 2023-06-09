@@ -4,7 +4,7 @@ def input_from_classificator(classificator: list, attribute_name: str):
     text = ""
     index = 0
     for element in classificator:
-        text += str(index) + " - " + str(element)
+        text += str(index) + ' - ' + '"' + str(element) + '"'
         index += 1
         if index < len(classificator):
             text += ", "
@@ -17,7 +17,7 @@ def input_from_classificator(classificator: list, attribute_name: str):
             if action < len(classificator):
                 req_element = classificator[action]
                 correct_input = True
-                print(f"{attribute_name} = {req_element}")
+                print(f'{attribute_name} = "{req_element}"')
             else:
                 print("Incorrect answer")
         except:
@@ -26,7 +26,7 @@ def input_from_classificator(classificator: list, attribute_name: str):
     return req_element
 
 
-seasons = ['summer', 'demi', 'winter', None]
+seasons = ['summer', 'demi', 'winter', 'any']
 item_classes = ['closes', 'shoes', 'accessories', 'other']
 item_types = {'closes': ['pant', 'jeans', 'pullover', 'suit', 't-shirt', 'shirt', 'jacket', 'overall', 'hat', 'mittens',
                          'socks', 'underpants', 'pajamas', 'other'],

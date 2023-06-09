@@ -1,8 +1,11 @@
-_Item__name;item_class;item_type;size;season;color;brand;storage;price;description
-snikers elefanten;shoes;snickers;27;summer;grey and green;elefanten;schoe rack;45.0;None
-green rainboots;shoes;rainboots;28;demi;green;None;cellar;25.0;with insulation
-sweater with deer;closes;pullover;104;demi;blue;lupilu;closet;0.0;None
-jacket with cars;closes;jacket;104;summer;blue;kik;closet;10.0;None
-jeans with car;closes;jeans;104;demi;denim;None;closet;0.0;None
-winter overall;closes;overall;110;winter;blue;kik;cellar;18.0;None
-yellow t-shirt;closes;T-shirt;4T;summer;yellow;childrens place;closet;4.0;None
+_Item__name;item_class;item_type;size;season;color;brand;price;description
+snikers elefanten;shoes;snickers;27;summer;grey and green;elefanten;45.0;
+green rainboots;shoes;rainboots;28;demi;green;;25.0;with insulation
+sweater with deer;closes;pullover;104;demi;blue;lupilu;0.0;
+jacket with cars;closes;jacket;104;summer;blue;kik;10.0;
+jeans with car;closes;jeans;104;demi;denim;;0.0;
+winter overall;closes;overall;110;winter;blue;kik;18.0;
+yellow t-shirt;closes;T-shirt;4T;summer;yellow;childrens place;4.0;
+blue sunglasses;accessories;glasses;;summer;blue;;5.0;
+panama;accessories;headgear;52;summer;printed;;4.0;
+blanket with kittens;other;other;;any;printed;;10.0;
