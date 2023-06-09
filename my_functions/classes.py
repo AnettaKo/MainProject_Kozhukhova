@@ -41,7 +41,7 @@ class Item:
         return self.__name == other.__name
 
     def __str__(self):
-        return str(self.__name)
+        return self.__name
 
     def fullstr(self, delimiter="; "):
         return str(self.__name) + delimiter + str(self.item_class) + delimiter + str(self.item_type) + delimiter + str(
@@ -211,8 +211,3 @@ class Wardrobe:
             if answer == "1":
                 self.__list_items.remove(element)
             print(self)
-
-
-
-
-# Item.header_attributes()

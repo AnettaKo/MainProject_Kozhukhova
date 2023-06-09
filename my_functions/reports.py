@@ -3,6 +3,7 @@ import plotly.figure_factory as ff
 from my_functions.classificators import *
 
 
+
 def full_table(my_wardrobe):
     list_items = my_wardrobe.list_items()
 
@@ -36,7 +37,7 @@ def filtered_table(my_wardrobe):
         print('no items in wardrobe')
         return
 
-    selection = {}
+    selections = {}
 
     list_attributes = ['item_class', 'item_type', 'size', 'season', 'color', 'brand']
     list_attributes_selected = []
@@ -66,20 +67,38 @@ def filtered_table(my_wardrobe):
             if answer != "1":
                 add_value = False
 
-        selection.update({attribute: list_values_selected})
+        selections.update({attribute: list_values_selected})
 
         answer = input("Do you wont to add new attribute to selection? Yes - 1, No - any other key: ")
         if answer != "1":
             add_attribute = False
 
-    print(selection)
+    print(selections)
+    list_items_selected = list_items
 
+    for attribute, selection in selections.items():
 
-# def select_items(my_wardrobe, selection):
-#     list_items = my_wardrobe.list_items()
-#
-#     list_items_selected = list_items
-#
-#     for attribute in selection:
-#         pass
+        # list_items = filter(select_items(attribute=attribute, selection=selection), list_items)
+        list_items_selected = filter(lambda item: item.__getattribute__(attribute) in selection, list_items_selected)
+        list_items_selected = (list(list_items_selected))
+
+    print([str(element) for element in list_items_selected])
+
+    if len(list_items_selected) == 0:
+        print('no items in result table')
+        return
+
+    cells = [list(item.__dict__.values()) for item in list_items_selected]
+    cells.insert(0, list(list_items[0].__dict__.keys()))  # header
+
+    fig = ff.create_table(cells, index=True)
+
+    # fig.update_layout(
+    #     title_text='2016 Hockey Stats',
+    #     margin={'t': 50, 'b': 100},
+    #     # xaxis={'domain': [0, .5]},
+    #     # xaxis2={'domain': [0.6, 1.]},
+    #     # yaxis2={'anchor': 'x2', 'title': 'Goals'}
+    # )
+    fig.show()
 
